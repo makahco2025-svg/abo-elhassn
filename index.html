@@ -43,6 +43,13 @@
       .shake {
         animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
       }
+      .input-error {
+        border-color: #ef4444; /* red-500 */
+      }
+      .input-error:focus {
+        --tw-ring-color: #ef4444;
+        border-color: #ef4444;
+      }
     </style>
 </head>
 <body class="bg-amber-50">
@@ -62,8 +69,8 @@
                         class="w-20 h-20 md:w-24 md:h-24 rounded-full p-1 border-2 border-white/50 object-cover bg-white"
                     />
                     <div class="text-right">
-                        <h1 class="text-5xl md:text-6xl font-black text-white" style="text-shadow: 2px 2px 5px rgba(0,0,0,0.5)">أبو الحسن السوري</h1>
-                        <p class="text-xl md:text-2xl text-gray-200 font-light" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.5)">للمأكولات السورية</p>
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white" style="text-shadow: 2px 2px 5px rgba(0,0,0,0.5)">أبو الحسن السوري</h1>
+                        <p class="text-lg sm:text-xl md:text-2xl text-gray-200 font-light" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.5)">للمأكولات السورية</p>
                     </div>
                 </div>
             </div>
@@ -138,11 +145,20 @@
                 <h2 class="text-2xl font-bold text-gray-800 text-center">تفاصيل التوصيل</h2>
             </div>
             <form id="checkout-form" class="p-5 space-y-4">
-                <input type="text" id="customer-name" placeholder="الاسم بالكامل" class="w-full p-2 border rounded" required>
-                <input type="tel" id="customer-phone" placeholder="رقم التليفون" class="w-full p-2 border rounded" required>
-                <input type="text" id="customer-address" placeholder="العنوان" class="w-full p-2 border rounded" required>
-                <input type="text" id="customer-house" placeholder="رقم المنزل / الشقة" class="w-full p-2 border rounded">
-                <input type="text" id="customer-landmark" placeholder="علامة مميزة للعنوان" class="w-full p-2 border rounded">
+                <div>
+                  <input type="text" id="customer-name" placeholder="الاسم بالكامل" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" required>
+                  <span id="name-error" class="text-red-500 text-sm mt-1 hidden"></span>
+                </div>
+                <div>
+                  <input type="tel" id="customer-phone" placeholder="رقم التليفون" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" required>
+                   <span id="phone-error" class="text-red-500 text-sm mt-1 hidden"></span>
+                </div>
+                <div>
+                  <input type="text" id="customer-address" placeholder="العنوان" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500" required>
+                  <span id="address-error" class="text-red-500 text-sm mt-1 hidden"></span>
+                </div>
+                <input type="text" id="customer-house" placeholder="رقم المنزل / الشقة (اختياري)" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
+                <input type="text" id="customer-landmark" placeholder="علامة مميزة للعنوان (اختياري)" class="w-full p-2 border rounded focus:ring-2 focus:ring-green-500">
                 <button type="submit" class="w-full text-white py-3 rounded-lg font-semibold hover:bg-green-700" style="background-color: #25D366;">متابعة لتأكيد الطلب</button>
             </form>
         </div>
@@ -326,7 +342,7 @@
 
             if (priceItems.length > 0) {
                 return `
-                <div class="flex items-baseline gap-x-3 gap-y-2 flex-wrap justify-center sm:justify-end">
+                <div class="flex items-baseline gap-x-3 gap-y-2 flex-wrap justify-center md:justify-end">
                     ${priceItems.map(item => `
                     <div class="flex items-center gap-1.5 whitespace-nowrap bg-gray-100 rounded-full pl-2.5 pr-1 py-0.5">
                         ${addButton(item.label, item.value)}
@@ -364,7 +380,7 @@
             if (menuContainer) {
               const headerOffset = document.querySelector('nav').offsetHeight;
               const elementPosition = menuContainer.getBoundingClientRect().top;
-              const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+              const offsetPosition = elementPosition + window.pageYOffset - headerOffset - 10; // 10px buffer
             
               window.scrollTo({
                   top: offsetPosition,
@@ -397,9 +413,9 @@
                       <h2 class="text-3xl font-bold text-center text-orange-600 mb-6">${section.title}</h2>
                       <ul class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                       ${section.items.map(item => `
-                          <li class="bg-amber-50/50 rounded-lg overflow-hidden flex flex-col sm:flex-row items-center gap-4 border border-amber-200/60 p-3 transform transition-shadow hover:shadow-lg hover:border-amber-300">
-                              <img src="https://www2.0zz0.com/2025/10/06/00/624311514.jpg" alt="${item.name.replace(/"/g, '&quot;')}" class="w-full sm:w-28 h-28 object-cover rounded-md flex-shrink-0 bg-white p-1">
-                              <div class="flex-grow flex flex-col sm:flex-row justify-between items-center w-full gap-3 text-center sm:text-right">
+                          <li class="bg-amber-50/50 rounded-lg overflow-hidden flex flex-col md:flex-row items-center gap-4 border border-amber-200/60 p-3 transform transition-shadow hover:shadow-lg hover:border-amber-300">
+                              <img src="https://www2.0zz0.com/2025/10/06/00/624311514.jpg" alt="${item.name.replace(/"/g, '&quot;')}" class="w-full md:w-28 h-28 object-cover rounded-md flex-shrink-0 bg-white p-1">
+                              <div class="flex-grow flex flex-col md:flex-row justify-between items-center w-full gap-3 text-center md:text-right">
                                   <span class="text-lg text-gray-800 font-semibold">${item.name}</span>
                                   ${createPriceHTML(item.name, item.prices)}
                               </div>
@@ -552,17 +568,39 @@
 
         function handleFormSubmit(event) {
             event.preventDefault();
-            const name = document.getElementById('customer-name').value.trim();
-            const phone = document.getElementById('customer-phone').value.trim();
-            const address = document.getElementById('customer-address').value.trim();
+            
+            // Clear previous errors
+            const inputs = {
+                name: { el: document.getElementById('customer-name'), errorEl: document.getElementById('name-error'), msg: 'الرجاء إدخال الاسم.' },
+                phone: { el: document.getElementById('customer-phone'), errorEl: document.getElementById('phone-error'), msg: 'الرجاء إدخال رقم التليفون.' },
+                address: { el: document.getElementById('customer-address'), errorEl: document.getElementById('address-error'), msg: 'الرجاء إدخال العنوان.' }
+            };
+            
+            let isValid = true;
+            Object.values(inputs).forEach(input => {
+                input.el.classList.remove('input-error');
+                input.errorEl.textContent = '';
+                input.errorEl.classList.add('hidden');
+            });
+
+            // Validate fields
+            Object.values(inputs).forEach(input => {
+                if (!input.el.value.trim()) {
+                    input.el.classList.add('input-error');
+                    input.errorEl.textContent = input.msg;
+                    input.errorEl.classList.remove('hidden');
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) return;
+
+            const name = inputs.name.el.value.trim();
+            const phone = inputs.phone.el.value.trim();
+            const address = inputs.address.el.value.trim();
             const house = document.getElementById('customer-house').value.trim();
             const landmark = document.getElementById('customer-landmark').value.trim();
-            
-            if (!name || !phone || !address) {
-                alert('الرجاء ملء جميع الحقول المطلوبة: الاسم، التليفون، والعنوان.');
-                return;
-            }
-            
+
             let message = `*طلب جديد من منيو أبو الحسن السوري*\n\n`;
             message += `*الاسم:* ${name}\n`;
             message += `*التليفون:* ${phone}\n`;
@@ -636,6 +674,22 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             }
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    const confirmationModal = document.getElementById('confirmation-modal');
+                    const checkoutModal = document.getElementById('checkout-modal');
+                    const cartModal = document.getElementById('cart-modal');
+
+                    if (!confirmationModal.classList.contains('hidden')) {
+                        toggleConfirmationModal(false);
+                    } else if (!checkoutModal.classList.contains('hidden')) {
+                        toggleCheckoutModal(false);
+                    } else if (!cartModal.classList.contains('hidden')) {
+                        toggleCartModal(false);
+                    }
+                }
+            });
         });
     </script>
 </body>
